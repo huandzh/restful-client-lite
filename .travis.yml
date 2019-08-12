@@ -1,11 +1,15 @@
 language: python
-python:
-  - "3.7"
+matrix:
+  include:
+    - python: 3.7
+      dist: xenial
+      sudo: true
 
 env:
-  - API_ROOT=http://127.0.0.1:5000
-  - TOKEN_AUTHOR=171b54871ecf1a08
-  - MONGO_URI=mongodb://127.0.0.1/test
+  global:
+    - API_ROOT=http://127.0.0.1:5000
+    - TOKEN_AUTHOR=171b54871ecf1a08
+    - MONGO_URI=mongodb://127.0.0.1/test
 
 services:
   - mongodb
