@@ -10,6 +10,7 @@ env:
     - API_ROOT=http://127.0.0.1:5000
     - TOKEN_AUTHOR=171b54871ecf1a08
     - MONGO_URI=mongodb://127.0.0.1/test
+    - LISTEN_PORT=5000
 
 services:
   - mongodb
@@ -18,7 +19,7 @@ services:
 before_install:
   - sleep 15
   - docker pull dhuan/eve-token-auth-demo:testing
-  - docker run -d --network=host -p 127.0.0.1:80:5000 -e MONGO_URI -e TOKEN_AUTHOR dhuan/eve-token-auth-demo:testing
+  - docker run -d --network=host -e LISTEN_PORT -e MONGO_URI -e TOKEN_AUTHOR dhuan/eve-token-auth-demo:testing
   - docker ps -a
 
 install:
