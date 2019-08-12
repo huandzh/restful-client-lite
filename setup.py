@@ -17,7 +17,7 @@ DESCRIPTION = "A lite client for restful APIs."
 URL = "https://github.com/huandzh/restful-client-lite"
 EMAIL = "hd@iamhd.com"
 AUTHOR = "Huan Di"
-REQUIRES_PYTHON = ">=3.7.0"
+REQUIRES_PYTHON = ">=3.5.0"
 VERSION = "0.0.1"
 
 # What packages are required for this module to be executed?
@@ -120,6 +120,8 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
