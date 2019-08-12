@@ -24,5 +24,10 @@ before_install:
 install:
   - pip install requests
 
+before_script:
+  - pwd
+  - ls -lah
+  - curl http://127.0.0.1:5000
+
 script:
   - pytest
