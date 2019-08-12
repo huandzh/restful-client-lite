@@ -32,6 +32,9 @@ class APIClient(object):
         self.auth = auth
 
     def get_authorization_header(self) -> str:
+        """
+        get authorization header from property
+        """
         return self.auth.get("token", "")
 
     def auth_headers(f: Callable) -> Callable:
@@ -57,7 +60,7 @@ class APIClient(object):
             data = json.dumps(kwargs.get("data", {}))
             kwargs["data"] = data
             headers = kwargs.get("headers", {}).copy()
-            headers.update({"Content-Type": "application/json"})
+            headers.update({"Content-Type": "application/json; charset=utf-8"})
             kwargs["headers"] = headers
             return f(self, *args, **kwargs)
 
@@ -81,17 +84,17 @@ class APIClient(object):
     @abs_url
     @auth_headers
     @encode_data
-    def patch(
-        self, url: str, etag: str, data: Union[List, Dict] = {}, headers: Dict = {}
+    def method_with_etag(
+        self, method: str, url: str, etag: str, data: Union[List, Dict], headers: Dict
     ) -> requests.Response:
-        """method patch"""
+        """method using etag"""
         headers["If-Match"] = etag
-        return requests.patch(url, data=data, headers=headers)
+        return requests.__getattribute__(method)(url, data=data, headers=headers)
 
-    def patch_auto_etag(
-        self, url: str, data: Union[List, Dict] = {}, headers: Dict = {}
+    def method_auto_etag(
+        self, method: str, url: str, data: Union[List, Dict], headers: Dict
     ) -> requests.Response:
-        """method patch, retrieve etag automatically in advance"""
+        """method using etag, retrieve etag automatically in advance"""
         res = self.get(url, headers=headers)
         if res.status_code != 200:
             raise NoneEtag("Fail to get from url")
@@ -99,4 +102,28 @@ class APIClient(object):
             etag = res.json()["_etag"]
         except KeyError:
             raise NoneEtag("None etag in response")
-        return self.patch(url, etag, data=data, headers=headers)
+        return self.method_with_etag(method, url, etag, data=data, headers=headers)
+
+    def patch(
+        self, url: str, etag: str, data: Union[List, Dict] = {}, headers: Dict = {}
+    ) -> requests.Response:
+        """method patch"""
+        return self.method_with_etag("patch", url, etag, data=data, headers=headers)
+
+    def patch_auto_etag(
+        self, url: str, data: Union[List, Dict] = {}, headers: Dict = {}
+    ) -> requests.Response:
+        """method patch, auto handle etag"""
+        return self.method_auto_etag("patch", url, data=data, headers=headers)
+
+    def delete(
+        self, url: str, etag: str, data: Union[List, Dict] = {}, headers: Dict = {}
+    ) -> requests.Response:
+        """method delete"""
+        return self.method_with_etag("delete", url, etag, data=data, headers=headers)
+
+    def delete_auto_etag(
+        self, url: str, data: Union[List, Dict] = {}, headers: Dict = {}
+    ) -> requests.Response:
+        """method delete, auto handle etag"""
+        return self.method_auto_etag("delete", url, data=data, headers=headers)
