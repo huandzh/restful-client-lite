@@ -17,18 +17,12 @@ services:
   - docker
 
 before_install:
-  - sleep 15
   - docker pull dhuan/eve-token-auth-demo:testing
   - docker run -d --network=host -e LISTEN_PORT -e MONGO_URI -e TOKEN_AUTHOR dhuan/eve-token-auth-demo:testing
   - docker ps -a
 
 install:
-  - pip install requests
-
-before_script:
-  - pwd
-  - ls -lah
-  - curl http://127.0.0.1:5000
+  - python3 setup.py install
 
 script:
   - pytest
