@@ -1,4 +1,4 @@
-# restful-client-lite
+# restful-client-lite [![Build Status](https://travis-ci.com/huandzh/restful-client-lite.svg?branch=master)](https://travis-ci.com/huandzh/restful-client-lite)
 
 A lite client for RESTFul APIs.
 
