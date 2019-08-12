@@ -85,14 +85,14 @@ class APIClient(object):
     @auth_headers
     @encode_data
     def method_with_etag(
-        self, method: str, url: str, etag: str, data: Union[List, Dict], headers: Dict
+        self, url: str, etag: str, data: Union[List, Dict], headers: Dict, method: str
     ) -> requests.Response:
         """method using etag"""
         headers["If-Match"] = etag
         return requests.__getattribute__(method)(url, data=data, headers=headers)
 
     def method_auto_etag(
-        self, method: str, url: str, data: Union[List, Dict], headers: Dict
+        self, url: str, data: Union[List, Dict], headers: Dict, method: str
     ) -> requests.Response:
         """method using etag, retrieve etag automatically in advance"""
         res = self.get(url, headers=headers)
@@ -102,28 +102,34 @@ class APIClient(object):
             etag = res.json()["_etag"]
         except KeyError:
             raise NoneEtag("None etag in response")
-        return self.method_with_etag(method, url, etag, data=data, headers=headers)
+        return self.method_with_etag(
+            url, etag, data=data, headers=headers, method=method
+        )
 
     def patch(
         self, url: str, etag: str, data: Union[List, Dict] = {}, headers: Dict = {}
     ) -> requests.Response:
         """method patch"""
-        return self.method_with_etag("patch", url, etag, data=data, headers=headers)
+        return self.method_with_etag(
+            url, etag, data=data, headers=headers, method="patch"
+        )
 
     def patch_auto_etag(
         self, url: str, data: Union[List, Dict] = {}, headers: Dict = {}
     ) -> requests.Response:
         """method patch, auto handle etag"""
-        return self.method_auto_etag("patch", url, data=data, headers=headers)
+        return self.method_auto_etag(url, data=data, headers=headers, method="patch")
 
     def delete(
         self, url: str, etag: str, data: Union[List, Dict] = {}, headers: Dict = {}
     ) -> requests.Response:
         """method delete"""
-        return self.method_with_etag("delete", url, etag, data=data, headers=headers)
+        return self.method_with_etag(
+            url, etag, data=data, headers=headers, method="delete"
+        )
 
     def delete_auto_etag(
         self, url: str, data: Union[List, Dict] = {}, headers: Dict = {}
     ) -> requests.Response:
         """method delete, auto handle etag"""
-        return self.method_auto_etag("delete", url, data=data, headers=headers)
+        return self.method_auto_etag(url, data=data, headers=headers, method="delete")
