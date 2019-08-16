@@ -105,11 +105,11 @@ class APIClient(object):
         )
 
     def patch(
-        self, url: str, etag: str, data: Union[List, Dict] = {}, headers: Dict = {}
+        self, url: str, etag: str = "", data: Union[List, Dict] = {}, headers: Dict = {}
     ) -> requests.Response:
         """method patch"""
         return self.method_with_etag(
-            url, etag, data=data, headers=headers, method="patch"
+            url, etag=etag, data=data, headers=headers, method="patch"
         )
 
     def patch_auto_etag(
@@ -119,11 +119,11 @@ class APIClient(object):
         return self.method_auto_etag(url, data=data, headers=headers, method="patch")
 
     def delete(
-        self, url: str, etag: str, data: Union[List, Dict] = {}, headers: Dict = {}
+        self, url: str, etag: str = "", data: Union[List, Dict] = {}, headers: Dict = {}
     ) -> requests.Response:
         """method delete"""
         return self.method_with_etag(
-            url, etag, data=data, headers=headers, method="delete"
+            url, etag=etag, data=data, headers=headers, method="delete"
         )
 
     def delete_auto_etag(
