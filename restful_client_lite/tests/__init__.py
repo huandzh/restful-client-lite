@@ -3,6 +3,8 @@ from restful_client_lite import APIClient
 import os
 import random
 
+TEST_ON_CONTRIB = os.environ.get("TEST_ON_CONTRIB")
+
 
 def generate_random_key(l):
     return ("%0" + str(l) + "x") % random.randrange(16 ** l)
