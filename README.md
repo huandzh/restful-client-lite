@@ -64,3 +64,27 @@ Delete url (fetch etag automatically in advance):
 ```python
 res_delete = api.delete_auto_etag("<url>")
 ```
+
+## Custom example
+
+Subclass `APIClient` to create custom api client:
+
+```python
+def sign(url):
+    """some function return signature"""
+    ...
+    return <signed url>
+
+class CustomAPIClient(APIClient):
+    """custom api client"""
+
+    def auth_headers(self, f: Callable) -> Callable:
+        """custom auth headers"""
+        @wraps(f)
+        def wrapper(*args, **kwargs):
+            headers = kwargs.get("headers", {}).copy()
+            url = args[0]
+            headers.update({"Signature": sign(url)})
+            kwargs["headers"] = headers
+            return f(*args, **kwargs)
+```
