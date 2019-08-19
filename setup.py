@@ -18,7 +18,8 @@ URL = "https://github.com/huandzh/restful-client-lite"
 EMAIL = "hd@iamhd.com"
 AUTHOR = "Huan Di"
 REQUIRES_PYTHON = ">=3.5.0"
-VERSION = "0.0.2"
+# use VERSION in __version__
+VERSION = ""
 
 # What packages are required for this module to be executed?
 REQUIRED = [
