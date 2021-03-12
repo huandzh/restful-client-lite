@@ -4,12 +4,13 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-pytest = "*"
-twine = "*"
-ipykernel = "*"
+pytest = ">=6.0"
+twine = ">=3.3"
+ipykernel = ">=5.5"
+mypy = ">=0.8"
 
 [packages]
 restful-client-lite = {editable = true,path = "."}
 
 [requires]
-python_version = "3.7"
+python_version = "3.9"
