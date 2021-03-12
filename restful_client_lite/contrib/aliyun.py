@@ -34,7 +34,7 @@ class AliyunApiGatewayClient(APIClient):
     FORMAT_RFC_2616 = "%a, %d %b %Y %X GMT"
 
     @staticmethod
-    def sign(source: str, secret: str) -> bytes:
+    def sign(source: str, secret: str) -> str:
         """
         sign source with secret
         """

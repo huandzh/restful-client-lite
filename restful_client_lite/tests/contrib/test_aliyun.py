@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# type: ignore
 """
 Put `aliyun.ini` at where to run tests
 with the follow settings and fill in credentials:
