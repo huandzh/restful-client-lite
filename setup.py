@@ -37,12 +37,12 @@ EXTRAS = {
 # Except, perhaps the License and Trove Classifiers!
 # If you do change the License, remember to change the Trove Classifier for that!
 
-here = os.path.abspath(os.path.dirname(__file__))
+# here = os.path.abspath(os.path.dirname(__file__))
 
 # Import the README and use it as the long-description.
 # Note: this will only work if 'README.md' is present in your MANIFEST.in file!
 try:
-    with io.open(os.path.join(here, "README.md"), encoding="utf-8") as f:
+    with io.open("README.md", encoding="utf-8") as f:
         long_description = "\n" + f.read()
 except FileNotFoundError:
     long_description = DESCRIPTION
@@ -51,7 +51,7 @@ except FileNotFoundError:
 about = {}
 if not VERSION:
     project_slug = NAME.lower().replace("-", "_").replace(" ", "_")
-    with open(os.path.join(here, project_slug, "__version__.py")) as f:
+    with open(os.path.join(project_slug, "__version__.py")) as f:
         exec(f.read(), about)
 else:
     about["__version__"] = VERSION
@@ -77,7 +77,7 @@ class UploadCommand(Command):
     def run(self):
         try:
             self.status("Removing previous builds…")
-            rmtree(os.path.join(here, "dist"))
+            rmtree("dist")
         except OSError:
             pass
 
