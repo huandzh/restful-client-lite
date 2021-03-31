@@ -17,7 +17,10 @@ user_secret=
 """
 
 import unittest
-from restful_client_lite.contrib.wangduoyun import WangduoyunApiClient
+from restful_client_lite.contrib.wangduoyun import (
+    WangduoyunApiClient,
+    WangduoyunGraphqlClient,
+)
 import configparser
 from restful_client_lite.tests import TEST_ON_CONTRIB
 
@@ -53,21 +56,18 @@ class WangduoyunApiClientTestCase(unittest.TestCase):
 
     def test_can_get_graphql(self):
         query = 'source(__id:{gt:1},limit:2,sort:"asc"){data{hid},page_info{end_cursor,has_next_page}}'
-        api = WangduoyunApiClient(
+        api = WangduoyunGraphqlClient(
             CONFIG["Api"]["graphql_root"],
             {
                 "user_key": CONFIG["Api"]["user_key"],
                 "user_secret": CONFIG["Api"]["user_secret"],
+                "source_id": CONFIG["Api"]["source_id"],
             },
         )
-        sign, timestamp = api.get_sign()
-        url = "?user_key={user_key}&timestamp={timestamp}&sign={sign}&source_id={source_id}&query={query}".format(
-            user_key=api.auth["user_key"],
-            timestamp=timestamp,
-            sign=sign,
-            source_id=CONFIG["Api"]["source_id"],
+        url = "&query={query}".format(
             query=query,
         )
         res = api.get(url)
         # if success, field `result` should be avaiable
         self.assertIn("result", res.json())
+        self.assertEqual(len(res.json()["result"]), 2)
